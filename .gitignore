@@ -1,0 +1,22 @@
+# Build output
+target/
+*.class
+*.log
+*.war
+*.jar
+
+# Local secrets and uploads - never commit these
+src/main/resources/db.properties
+campusgig-uploads/
+.env
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# OS
+.DS_Store

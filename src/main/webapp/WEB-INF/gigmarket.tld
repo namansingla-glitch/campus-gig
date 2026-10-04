@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
+    <description>Display helpers for CampusGig JSP pages</description>
+    <tlib-version>1.0</tlib-version>
+    <short-name>g</short-name>
+    <uri>http://gigmarket.com/functions</uri>
+
+    <function>
+        <description>Formats an amount as 1,500 or 1,500.50 (Indian digit grouping)</description>
+        <name>money</name>
+        <function-class>com.gigmarket.util.Format</function-class>
+        <function-signature>java.lang.String money(java.math.BigDecimal)</function-signature>
+    </function>
+    <function>
+        <description>dd MMM yyyy</description>
+        <name>date</name>
+        <function-class>com.gigmarket.util.Format</function-class>
+        <function-signature>java.lang.String date(java.util.Date)</function-signature>
+    </function>
+    <function>
+        <description>dd MMM yyyy, h:mm a</description>
+        <name>dateTime</name>
+        <function-class>com.gigmarket.util.Format</function-class>
+        <function-signature>java.lang.String dateTime(java.util.Date)</function-signature>
+    </function>
+    <function>
+        <description>Relative time such as "3 h ago"</description>
+        <name>ago</name>
+        <function-class>com.gigmarket.util.Format</function-class>
+        <function-signature>java.lang.String ago(java.util.Date)</function-signature>
+    </function>
+    <function>
+        <description>First letter, upper-cased</description>
+        <name>initial</name>
+        <function-class>com.gigmarket.util.Format</function-class>
+        <function-signature>java.lang.String initial(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <description>Readable gig/application status</description>
+        <name>statusLabel</name>
+        <function-class>com.gigmarket.util.Format</function-class>
+        <function-signature>java.lang.String statusLabel(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <description>Tailwind classes for a status badge</description>
+        <name>statusClass</name>
+        <function-class>com.gigmarket.util.Format</function-class>
+        <function-signature>java.lang.String statusClass(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <description>Five-star string for a rating</description>
+        <name>stars</name>
+        <function-class>com.gigmarket.util.Format</function-class>
+        <function-signature>java.lang.String stars(double)</function-signature>
+    </function>
+    <function>
+        <description>One-decimal rating such as 4.5</description>
+        <name>rating</name>
+        <function-class>com.gigmarket.util.Format</function-class>
+        <function-signature>java.lang.String rating(double)</function-signature>
+    </function>
+</taglib>

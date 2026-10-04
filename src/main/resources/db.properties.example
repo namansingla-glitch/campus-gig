@@ -1,0 +1,13 @@
+# Copy this file to db.properties (same folder) and fill in your values.
+# db.properties is git-ignored so your password never gets committed.
+#
+# You can also use environment variables instead of this file:
+#   GIG_DB_URL, GIG_DB_USER, GIG_DB_PASSWORD, GIG_UPLOAD_DIR
+# Environment variables win over this file.
+
+db.url=jdbc:mysql://localhost:3306/gig_marketplace?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+db.user=root
+db.password=your-mysql-password
+
+# Where uploaded portfolios are stored (defaults to ~/campusgig-uploads)
+# upload.dir=/Users/you/campusgig-uploads

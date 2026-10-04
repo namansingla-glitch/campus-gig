@@ -1,0 +1,186 @@
+-- MySQL dump 10.13  Distrib 8.4.0, for macos13.2 (arm64)
+--
+-- Host: localhost    Database: gig_marketplace
+-- ------------------------------------------------------
+-- Server version	9.7.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
+SET @@SESSION.SQL_LOG_BIN= 0;
+
+--
+-- GTID state at the beginning of the backup 
+--
+
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '39a92e5e-b0e7-11f1-843e-e84ecd1c235b:1-64';
+
+--
+-- Table structure for table `Applications`
+--
+
+DROP TABLE IF EXISTS `Applications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Applications` (
+  `application_id` int NOT NULL AUTO_INCREMENT,
+  `gig_id` int NOT NULL,
+  `applicant_id` int NOT NULL,
+  `pitch_text` text NOT NULL,
+  `portfolio_path` varchar(255) DEFAULT NULL,
+  `status` enum('Pending','Hired','Rejected') DEFAULT 'Pending',
+  `applied_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`application_id`),
+  KEY `gig_id` (`gig_id`),
+  KEY `applicant_id` (`applicant_id`),
+  CONSTRAINT `applications_ibfk_1` FOREIGN KEY (`gig_id`) REFERENCES `Gigs` (`gig_id`),
+  CONSTRAINT `applications_ibfk_2` FOREIGN KEY (`applicant_id`) REFERENCES `Students` (`student_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Applications`
+--
+
+LOCK TABLES `Applications` WRITE;
+/*!40000 ALTER TABLE `Applications` DISABLE KEYS */;
+INSERT INTO `Applications` VALUES (1,1,1,'edrtftyguyh','/tmp/gig-portfolios/03190884-14c2-420f-9248-48039725c4bb_Screenshot 2025-09-20 at 5.39.01&#8239;PM.png','Hired','2026-09-30 17:11:56');
+/*!40000 ALTER TABLE `Applications` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Gigs`
+--
+
+DROP TABLE IF EXISTS `Gigs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Gigs` (
+  `gig_id` int NOT NULL AUTO_INCREMENT,
+  `poster_id` int NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `description` text NOT NULL,
+  `budget` decimal(10,2) NOT NULL,
+  `deadline` date DEFAULT NULL,
+  `completion_deadline` date DEFAULT NULL,
+  `category` varchar(100) DEFAULT NULL,
+  `status` enum('Open','Closed') DEFAULT 'Open',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`gig_id`),
+  KEY `poster_id` (`poster_id`),
+  CONSTRAINT `gigs_ibfk_1` FOREIGN KEY (`poster_id`) REFERENCES `Students` (`student_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Gigs`
+--
+
+LOCK TABLES `Gigs` WRITE;
+/*!40000 ALTER TABLE `Gigs` DISABLE KEYS */;
+INSERT INTO `Gigs` VALUES (1,1,'design a poster','bnlnbfjkve .',800.00,NULL,NULL,'Design','Closed','2026-09-30 17:10:30');
+/*!40000 ALTER TABLE `Gigs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Reviews`
+--
+
+DROP TABLE IF EXISTS `Reviews`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Reviews` (
+  `review_id` int NOT NULL AUTO_INCREMENT,
+  `gig_id` int NOT NULL,
+  `rating` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`review_id`),
+  KEY `gig_id` (`gig_id`),
+  CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`gig_id`) REFERENCES `Gigs` (`gig_id`),
+  CONSTRAINT `reviews_chk_1` CHECK (((`rating` >= 1) and (`rating` <= 5)))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Reviews`
+--
+
+LOCK TABLES `Reviews` WRITE;
+/*!40000 ALTER TABLE `Reviews` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Reviews` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Students`
+--
+
+DROP TABLE IF EXISTS `Students`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Students` (
+  `student_id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  PRIMARY KEY (`student_id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Students`
+--
+
+LOCK TABLES `Students` WRITE;
+/*!40000 ALTER TABLE `Students` DISABLE KEYS */;
+INSERT INTO `Students` VALUES (1,'Naman','naman@campus.edu'),(2,'Riddhi','riddhi@campus.edu'),(3,'Shreyash','shreyash@campus.edu'),(4,'Shivam','shivam@campus.edu'),(5,'Mohak','mohak@campus.edu');
+/*!40000 ALTER TABLE `Students` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(190) NOT NULL,
+  `password_hash` varchar(100) NOT NULL,
+  `role` enum('student','poster') NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `uq_users_email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Naman','naman@campus.edu','$2a$12$3ViGGQDDxWlD91S18ozF7uZQaoikXQWG3vuJ/X/Jvx5zOyvDfKJf2','student','2026-10-04 18:00:54'),(2,'Riddhi','riddhi@campus.edu','$2a$12$3ViGGQDDxWlD91S18ozF7uZQaoikXQWG3vuJ/X/Jvx5zOyvDfKJf2','poster','2026-10-04 18:00:54'),(3,'Shreyash','shreyash@campus.edu','$2a$12$3ViGGQDDxWlD91S18ozF7uZQaoikXQWG3vuJ/X/Jvx5zOyvDfKJf2','student','2026-10-04 18:00:54'),(4,'Shivam','shivam@campus.edu','$2a$12$3ViGGQDDxWlD91S18ozF7uZQaoikXQWG3vuJ/X/Jvx5zOyvDfKJf2','student','2026-10-04 18:00:54'),(5,'Mohak','mohak@campus.edu','$2a$12$3ViGGQDDxWlD91S18ozF7uZQaoikXQWG3vuJ/X/Jvx5zOyvDfKJf2','poster','2026-10-04 18:00:54');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2026-10-04 23:31:37
